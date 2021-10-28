@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "nuxt3-app",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
@@ -7,5 +8,9 @@
   },
   "devDependencies": {
     "nuxt3": "latest"
+  },
+  "dependencies": {
+    "@layer0/cli": "^3.17.3",
+    "@layer0/core": "^3.17.3"
   }
 }

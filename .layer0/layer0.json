@@ -1,0 +1,127 @@
+{
+  "version": "3.17.3",
+  "backends": {},
+  "destinations": {
+    "default": {
+      "index": 0,
+      "errorRoutes": [],
+      "routes": [
+        {
+          "path": "/__layer0__/cache-manifest.js",
+          "routeJson": "{\"path\":\"/__layer0__/cache-manifest.js\"}",
+          "match": [
+            {
+              "value": "${path}",
+              "matchRegex": "(?i)^/__layer0__/cache-manifest\\.js[/#\\?]?$"
+            }
+          ],
+          "matchResp": [],
+          "cache": {
+            "maxAgeSeconds": 31536000
+          },
+          "route": {
+            "action": "proxy",
+            "backend": "__js__"
+          },
+          "transform": {
+            "request": [],
+            "upstreamResponse": [
+              {
+                "action": "set-header",
+                "name": "vary",
+                "value": "accept-encoding"
+              }
+            ],
+            "response": [
+              {
+                "action": "set-header",
+                "name": "cache-control",
+                "value": "private, max-age=3600"
+              },
+              {
+                "action": "set-header",
+                "name": "content-type",
+                "value": "text/javascript"
+              },
+              {
+                "action": "set-header",
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        },
+        {
+          "path": "/_nuxt/:path*",
+          "routeJson": "{\"method\":\"get\",\"path\":\"/_nuxt/:path*\"}",
+          "match": [
+            {
+              "value": "${path}",
+              "matchRegex": "(?i)^/_nuxt(?:/((?:[^/#\\?]+?)(?:/(?:[^/#\\?]+?))*))?[/#\\?]?$"
+            },
+            {
+              "value": "${method}",
+              "matchRegex": "(?i)^get$"
+            }
+          ],
+          "matchResp": [],
+          "cache": {
+            "maxAgeSeconds": 315360000,
+            "matchExplicitMethod": "get"
+          },
+          "route": {
+            "action": "proxy",
+            "backend": "__static__",
+            "fsPath": [
+              "/.output/public/_nuxt/:path*"
+            ],
+            "fallbackToCompute": false
+          },
+          "transform": {
+            "request": [
+              {
+                "action": "update-path",
+                "valueRegex": "(?i)^/_nuxt(?:/((?:[^/#\\?]+?)(?:/(?:[^/#\\?]+?))*))?[/#\\?]?$",
+                "replaceValue": "/.output/public/_nuxt/\\1"
+              }
+            ],
+            "upstreamResponse": [
+              {
+                "action": "set-header",
+                "name": "vary",
+                "value": "accept-encoding"
+              }
+            ],
+            "response": [
+              {
+                "action": "set-header",
+                "name": "cache-control",
+                "value": "private, max-age=315360000"
+              }
+            ]
+          }
+        },
+        {
+          "routeJson": "{}",
+          "match": [],
+          "matchResp": [],
+          "route": {
+            "action": "proxy",
+            "backend": "__js__"
+          },
+          "transform": {
+            "request": [],
+            "upstreamResponse": [
+              {
+                "action": "set-header",
+                "name": "vary",
+                "value": "accept-encoding"
+              }
+            ],
+            "response": []
+          }
+        }
+      ]
+    }
+  }
+}
